@@ -1,7 +1,5 @@
-NETLIFY SETUP
-1. Deploy this folder to Netlify (see the steps in chat).
-2. Site configuration > Environment variables, add:
-   TELEGRAM_BOT_TOKEN = your NEW bot token from BotFather
-   TELEGRAM_CHAT_ID   = 7225471701
-3. Redeploy, open your site, submit a test registration. It should arrive in Telegram.
-Never put the token inside any file.
+NETLIFY SETUP (no tokens needed)
+1. Deploy this folder to Netlify from GitHub.
+2. After the first deploy, open Netlify > Forms. You should see a form called "registration".
+3. Forms > Form notifications > Add notification > Email notification. Enter your email, choose the "registration" form.
+4. Submit a test registration. It will appear under Forms > Active forms > registration and be emailed to you.
