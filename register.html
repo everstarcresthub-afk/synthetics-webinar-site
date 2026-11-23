@@ -1,0 +1,29 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"><link rel="stylesheet" href="style.css"><title>Register | Free Synthetics Webinar</title></head><body>
+<header class="hero"><div class="in"><span class="date">1st–9th December</span><h1>Complete your registration</h1><p>Create your Deriv account first, then upload a screenshot of it below.</p>
+<a class="btn" href="https://t.deriv.link?t=LGVWKPBXFGAL" target="_blank" rel="noopener">Create my Deriv account</a></div></header>
+<main><form id="f" novalidate><div class="g">
+<div><label for="name">Full name</label><input id="name" required autocomplete="name"></div>
+<div><label for="phone">WhatsApp number</label><input id="phone" type="tel" required autocomplete="tel" placeholder="e.g. 08012345678"></div>
+<div class="full"><label for="email">Email address</label><input id="email" type="email" required autocomplete="email"></div>
+<div><label for="exp">Trading experience</label><select id="exp" required><option value="">Select</option><option>Beginner (never traded)</option><option>Some experience</option><option>Experienced trader</option></select></div>
+<div><label for="acc">Have you created your Deriv account?</label><select id="acc" required><option value="">Select</option><option>Yes, my account is created</option><option>No, not yet</option></select></div>
+<div class="full"><label for="shot">Screenshot of your created Deriv account</label><input id="shot" type="file" accept="image/*" required><img id="prev" alt="Screenshot preview"><p class="sub" style="margin:6px 0 0">Please hide your account ID and balance before you upload.</p></div>
+<div class="full"><label for="help">Anything you need help with? (optional)</label><textarea id="help" rows="2" maxlength="300"></textarea></div>
+<input class="hp" id="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+</div>
+<label class="chk"><input id="ok" type="checkbox" required><span>I agree that the coordination team may use these details to verify my registration.</span></label>
+<p id="msg" role="alert"></p><button class="go" id="btn" type="submit">Submit registration</button></form></main><footer>Trading synthetic indices carries a high risk of loss. Figures shown on the flyer are illustrative and results are not guaranteed. Only trade money you can afford to lose.</footer>
+<script>
+var f=document.getElementById("f"),msg=document.getElementById("msg"),btn=document.getElementById("btn"),shot=document.getElementById("shot"),prev=document.getElementById("prev");
+shot.addEventListener("change",function(){var x=shot.files[0];if(x){prev.src=URL.createObjectURL(x);prev.style.display="block"}});
+function shrink(file){return new Promise(function(res,rej){var i=new Image();i.onload=function(){var s=Math.min(1,1280/Math.max(i.width,i.height)),c=document.createElement("canvas");c.width=Math.round(i.width*s);c.height=Math.round(i.height*s);c.getContext("2d").drawImage(i,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",.8).split(",")[1])};i.onerror=rej;i.src=URL.createObjectURL(file)})}
+f.addEventListener("submit",async function(e){e.preventDefault();msg.textContent="";
+if(!f.reportValidity())return;
+if(document.getElementById("acc").value!=="Yes, my account is created"){msg.textContent="Please create your Deriv account first, then come back and submit.";return}
+btn.disabled=true;btn.textContent="Submitting…";
+try{var v=function(k){return document.getElementById(k).value.trim()};
+var img=await shrink(shot.files[0]);
+var r=await fetch("/.netlify/functions/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:v("name"),phone:v("phone"),email:v("email"),exp:v("exp"),acc:v("acc"),help:v("help"),website:v("website"),image:img})});
+if(!r.ok)throw 0;location.href="approved.html"}
+catch(x){msg.textContent="Sorry, something went wrong. Check your connection and try again.";btn.disabled=false;btn.textContent="Submit registration"}});
+</script></body></html>
