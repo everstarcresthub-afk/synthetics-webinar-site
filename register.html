@@ -24,6 +24,6 @@ btn.disabled=true;btn.textContent="Submitting…";
 try{var v=function(k){return document.getElementById(k).value.trim()};
 var img=await shrink(shot.files[0]);
 var r=await fetch("/.netlify/functions/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name:v("name"),phone:v("phone"),email:v("email"),exp:v("exp"),acc:v("acc"),help:v("help"),website:v("website"),image:img})});
-if(!r.ok)throw 0;location.href="approved.html"}
-catch(x){msg.textContent="Sorry, something went wrong. Check your connection and try again.";btn.disabled=false;btn.textContent="Submit registration"}});
+if(!r.ok){var m="";try{m=(await r.json()).error||""}catch(_){}throw m||("Error "+r.status)}location.href="approved.html"}
+catch(x){msg.textContent="Sorry, something went wrong"+(typeof x==="string"?" ("+x+")":"")+". Please try again.";btn.disabled=false;btn.textContent="Submit registration"}});
 </script></body></html>
